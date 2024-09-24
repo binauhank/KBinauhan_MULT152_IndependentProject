@@ -8,6 +8,7 @@ TagManager:
   - CinemachineTarget
   - UpgradeOne
   - UpgradeTwo
+  - Breakable
   layers:
   - Default
   - TransparentFX

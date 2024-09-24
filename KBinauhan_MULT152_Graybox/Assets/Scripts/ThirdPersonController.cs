@@ -14,12 +14,17 @@ public class ThirdPersonController : MonoBehaviour
     public float groundDistance = 0.4f;
     public float jumpHeight = 3f;
     public LayerMask groundMask;
-    public bool upgradeOne;
-    public bool upgradeTwo;
+    public bool jumpUpgrade;
+    public bool cannonUpgrade;
     float turnSmoothVelocity;
 
     Vector3 velocity;
     bool isGrounded;
+    
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     
     // Update is called once per frame
     void Update()
@@ -54,7 +59,7 @@ public class ThirdPersonController : MonoBehaviour
 
             controller.Move(velocity * Time.deltaTime);
 
-        if(upgradeOne)
+        if(jumpUpgrade)
         {
             jumpHeight = 6f;
         }
@@ -64,11 +69,13 @@ public class ThirdPersonController : MonoBehaviour
     {
         if (col.gameObject.tag == "UpgradeOne")
         {
-            upgradeOne = true;
+            jumpUpgrade = true;
+            Destroy(col.gameObject);
         }
-        else if (col.gameObject.tag == "UpgradeTwo")
+        if (col.gameObject.tag == "UpgradeTwo")
         {
-            upgradeTwo = true;
+            cannonUpgrade = true;
+            Destroy(col.gameObject);
         }
     }
 }

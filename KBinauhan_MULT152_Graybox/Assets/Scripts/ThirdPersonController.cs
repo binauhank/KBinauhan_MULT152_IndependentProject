@@ -16,6 +16,7 @@ public class ThirdPersonController : MonoBehaviour
     public LayerMask groundMask;
     public bool jumpUpgrade;
     public bool cannonUpgrade;
+    public bool hackingUpgrade;
     float turnSmoothVelocity;
 
     Vector3 velocity;
@@ -65,7 +66,7 @@ public class ThirdPersonController : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider col)
+    void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "UpgradeOne")
         {
@@ -75,6 +76,11 @@ public class ThirdPersonController : MonoBehaviour
         if (col.gameObject.tag == "UpgradeTwo")
         {
             cannonUpgrade = true;
+            Destroy(col.gameObject);
+        }
+        if(col.gameObject.tag == "UpgradeThree")
+        {
+            hackingUpgrade = true;
             Destroy(col.gameObject);
         }
     }

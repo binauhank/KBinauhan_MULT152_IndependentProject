@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 765707607962711235}
   - component: {fileID: 3177821391694413186}
   - component: {fileID: 2433472163923682012}
-  - component: {fileID: 6375278459563580624}
+  - component: {fileID: 6601410168902633323}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: PlayerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7054792645978512305}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -115,7 +115,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6375278459563580624
+--- !u!114 &6601410168902633323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,6 +124,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7054792645978512305}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a329c00b12d7849afdf8d4f9b27623, type: 3}
+  m_Script: {fileID: 11500000, guid: adbb6496d8bfcb24ab83fee354598176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

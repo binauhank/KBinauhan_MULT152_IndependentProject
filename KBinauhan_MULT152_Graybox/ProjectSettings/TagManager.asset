@@ -9,6 +9,8 @@ TagManager:
   - UpgradeOne
   - UpgradeTwo
   - Breakable
+  - Enemy
+  - UpgradeThree
   layers:
   - Default
   - TransparentFX

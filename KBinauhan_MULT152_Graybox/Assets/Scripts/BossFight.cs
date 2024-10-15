@@ -31,7 +31,7 @@ public class BossFight : MonoBehaviour
             direction = Vector3.left;
         }
 
-        if (healthScript.enemyHealth <= 0)
+        if (healthScript.healthPoints <= 0)
         {
             for (int i = 0; i < upgradeDrop.Length; i++)
             {

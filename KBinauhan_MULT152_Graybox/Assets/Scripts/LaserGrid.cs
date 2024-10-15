@@ -4,12 +4,32 @@ using UnityEngine;
 
 public class LaserGrid : MonoBehaviour
 {
+    private Health healthScript;
+
+    void Start()
+    {
+        healthScript = GameObject.Find("Player").GetComponent<Health>();
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            float damage = 10f;
-            other.GetComponent<Health>().TakeDamage(damage);
+            InvokeRepeating("DamageOnContact", 0.1f, 1f);
         }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            CancelInvoke("DamageOnContact");
+        }
+    }
+
+    void DamageOnContact()
+    {
+        float damage = 5f;
+        healthScript.TakeDamage(damage);
     }
 }

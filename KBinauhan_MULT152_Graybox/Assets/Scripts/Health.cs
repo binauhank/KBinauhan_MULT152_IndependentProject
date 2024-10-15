@@ -1,40 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
-    public float playerHealth = 20f;
-    public float enemyHealth = 10f;
+    public float healthPoints = 20f;
     
     void Update()
     {
-        if (enemyHealth <= 0)
+        if (healthPoints <= 0)
         {
             Destroy(gameObject);
-        }
-
-        if (playerHealth <= 0)
-        {
-            Destroy(gameObject);
-            Debug.Log("Game over!");
-            // reload scene
         }
     }
 
     public void TakeDamage(float damageTaken)
     {
+        healthPoints -= damageTaken;
+        
         if (gameObject.tag == "Enemy")
         {
-            enemyHealth -= damageTaken;
-            Debug.Log("Enemy health: " + enemyHealth);
+            Debug.Log("Enemy health: " + healthPoints);
         }
         
         if (gameObject.tag == "Player")
         {
-            playerHealth -= damageTaken;
-            Debug.Log("Player health: " + playerHealth);
+            Debug.Log("Player health: " + healthPoints);
         }
     }
 }

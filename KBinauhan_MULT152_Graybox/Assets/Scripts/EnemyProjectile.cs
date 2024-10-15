@@ -15,6 +15,8 @@ public class EnemyProjectile : MonoBehaviour
         {
             float damage = Random.Range(1, 3);
             other.GetComponent<Health>().TakeDamage(damage);
+
+            Destroy(gameObject);
         }
     }
 }

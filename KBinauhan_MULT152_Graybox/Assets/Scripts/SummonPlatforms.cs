@@ -9,9 +9,9 @@ public class SummonPlatforms : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < platforms.Length; i++)
+        foreach (GameObject platform in platforms)
         {
-            platforms[i].SetActive(false);
+            platform.SetActive(false);
         }
     }
 
@@ -19,9 +19,9 @@ public class SummonPlatforms : MonoBehaviour
     {
         if (upgradeCheck.jumpUpgrade == true)
         {
-            for (int i = 0; i < platforms.Length; i++)
+            foreach (GameObject platform in platforms)
             {
-                platforms[i].SetActive(true);
+                platform.SetActive(true);
             }
         }
     }

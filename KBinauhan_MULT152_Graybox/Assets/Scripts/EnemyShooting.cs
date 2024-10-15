@@ -10,6 +10,12 @@ public class EnemyShooting : MonoBehaviour
 
     private bool playerInRange = false;
     private Transform player = null;
+    private GameManager gameMg;
+
+    void Start()
+    {
+        gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -36,6 +42,11 @@ public class EnemyShooting : MonoBehaviour
         if (playerInRange)
         {
             transform.rotation = Quaternion.LookRotation(player.position - transform.position, transform.up);
+        }
+
+        if (gameMg.gameOver == true)
+        {
+            CancelInvoke("ShootBullet");
         }
     }
 

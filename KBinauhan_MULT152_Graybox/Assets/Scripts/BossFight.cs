@@ -8,14 +8,11 @@ public class BossFight : MonoBehaviour
     private Vector3 direction = Vector3.left;
 
     public Health healthScript;
-    public GameObject[] upgradeDrop;
+    public GameObject upgradeDrop;
 
     void Start()
     {
-        for (int i = 0; i < upgradeDrop.Length; i++)
-        {
-            upgradeDrop[i].SetActive(false);
-        }
+        upgradeDrop.SetActive(false);
     }
     
     void Update()
@@ -33,10 +30,7 @@ public class BossFight : MonoBehaviour
 
         if (healthScript.healthPoints <= 0)
         {
-            for (int i = 0; i < upgradeDrop.Length; i++)
-            {
-                upgradeDrop[i].SetActive(true);
-            }
+            upgradeDrop.SetActive(true);
         }
     }
 }

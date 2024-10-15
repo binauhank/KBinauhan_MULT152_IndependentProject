@@ -10,10 +10,12 @@ public class EnemyShooting : MonoBehaviour
 
     private bool playerInRange = false;
     private Transform player = null;
+    private Health healthScript;
     private GameManager gameMg;
 
     void Start()
     {
+        healthScript = GetComponentInParent<Health>();
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
@@ -44,7 +46,7 @@ public class EnemyShooting : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(player.position - transform.position, transform.up);
         }
 
-        if (gameMg.gameOver == true)
+        if (healthScript.healthPoints <= 0 || gameMg.gameOver == true)
         {
             CancelInvoke("ShootBullet");
         }

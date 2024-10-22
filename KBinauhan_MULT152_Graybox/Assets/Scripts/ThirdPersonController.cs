@@ -5,8 +5,10 @@ using UnityEngine;
 public class ThirdPersonController : MonoBehaviour
 {
     public CharacterController controller;
+    public GameManager gameMg;
     public Transform cam;
     public Transform groundCheck;
+    private Animator animPlayer;
 
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
@@ -25,44 +27,73 @@ public class ThirdPersonController : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
+        animPlayer = GetComponent<Animator>();
+        gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
     
-    // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if (isGrounded && velocity.y < 0)
+        if (gameMg.gameOver == false)
         {
-            velocity.y = -2f;
-        }
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+            if (isGrounded && velocity.y < 0)
+            {
+                velocity.y = -2f;
+            }
 
-        if (direction.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-        
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
-        }
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        if(Input.GetButtonDown("Jump") && isGrounded)
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            }
+
+            if (!(Input.GetAxisRaw("Horizontal") == 0) || !(Input.GetAxisRaw("Vertical") == 0))
+            {
+                animPlayer.SetBool("Run_bool", true);
+            }
+            else
+            {
+                animPlayer.SetBool("Run_bool", false);
+            }
+
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                animPlayer.SetTrigger("Jump_trig");
+            }
+
+            if (velocity.y > 0)
+            {
+                animPlayer.SetBool("Fall_bool", true);
+            }
+            else if (velocity.y < 0 && isGrounded)
+            {
+                animPlayer.SetBool("Fall_bool", false);
             }
 
             velocity.y += gravity * Time.deltaTime;
 
             controller.Move(velocity * Time.deltaTime);
 
-        if(jumpUpgrade)
+            if (jumpUpgrade)
+            {
+                jumpHeight = 6f;
+            }
+        }
+
+        if (gameMg.gameOver == true)
         {
-            jumpHeight = 6f;
+            animPlayer.SetTrigger("Death_trig");
         }
     }
 

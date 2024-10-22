@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SwitchWeapons : MonoBehaviour
 {
-    public GameObject[] weapons;
+    public GameObject pulseCannon;
     public ThirdPersonController controllerScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        weapons[1].SetActive(false);
+        pulseCannon.SetActive(false);
     }
 
     // Update is called once per frame
@@ -18,14 +18,12 @@ public class SwitchWeapons : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            weapons[0].SetActive(true);
-            weapons[1].SetActive(false);
+            pulseCannon.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && controllerScript.cannonUpgrade)
         {
-            weapons[0].SetActive(false);
-            weapons[1].SetActive(true);
+            pulseCannon.SetActive(true);
         }
     }
 }

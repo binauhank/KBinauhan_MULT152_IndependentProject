@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShootWeapon : MonoBehaviour
 {
-    public float projSpeed = 30f;
+    public float projSpeed = 15f;
     public GameObject pulseCannon;
     public Rigidbody projectilePrefab;
     

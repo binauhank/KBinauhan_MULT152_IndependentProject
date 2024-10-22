@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     
     void Update()
     {
-        if (healthPoints <= 0)
+        if (!(gameObject.tag == "Player") && healthPoints <= 0)
         {
             Destroy(gameObject);
         }

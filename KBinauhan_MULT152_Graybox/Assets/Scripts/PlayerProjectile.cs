@@ -11,11 +11,6 @@ public class PlayerProjectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Breakable")
-        {
-            Destroy(other.gameObject);
-        }
-
         if (other.gameObject.tag == "Enemy")
         {
             float damage = Random.Range(1, 3);

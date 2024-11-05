@@ -4,26 +4,31 @@ using UnityEngine;
 
 public class SwitchWeapons : MonoBehaviour
 {
+    private GameManager gameMg;
+    
     public GameObject pulseCannon;
     public ThirdPersonController controllerScript;
 
-    // Start is called before the first frame update
     void Start()
     {
+        gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        
         pulseCannon.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (!gameMg.gameOver)
         {
-            pulseCannon.SetActive(false);
-        }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                pulseCannon.SetActive(false);
+            }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && controllerScript.cannonUpgrade)
-        {
-            pulseCannon.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Alpha2) && controllerScript.cannonUpgrade)
+            {
+                pulseCannon.SetActive(true);
+            }
         }
     }
 }

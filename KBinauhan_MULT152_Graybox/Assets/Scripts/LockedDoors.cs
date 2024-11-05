@@ -8,11 +8,18 @@ public class LockedDoors : MonoBehaviour
     public ThirdPersonController upgradeCheck;
     public bool playerIsClose = false;
 
+    private Animator doorAnim;
+
+    void Start()
+    {
+        doorAnim = lockedDoor.GetComponent<Animator>();
+    }
+    
     void Update()
     {
         if (upgradeCheck.hackingUpgrade && playerIsClose && Input.GetKey(KeyCode.E))
         {
-            lockedDoor.SetActive(false);
+            doorAnim.SetTrigger("Door_open");
         }
     }
     
@@ -21,6 +28,7 @@ public class LockedDoors : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             playerIsClose = true;
+            doorAnim.SetBool("character_nearby", true);
         }
     }
 
@@ -29,6 +37,7 @@ public class LockedDoors : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             playerIsClose = false;
+            doorAnim.SetBool("character_nearby", false);
         }
     }
 }

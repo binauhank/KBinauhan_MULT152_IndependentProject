@@ -5,7 +5,7 @@ using UnityEngine;
 public class ThirdPersonController : MonoBehaviour
 {
     public CharacterController controller;
-    public GameManager gameMg;
+    private GameManager gameMg;
     public Transform cam;
     public Transform groundCheck;
     private Animator animPlayer;
@@ -34,7 +34,7 @@ public class ThirdPersonController : MonoBehaviour
     
     void Update()
     {
-        if (gameMg.gameOver == false)
+        if (!gameMg.gameOver)
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
@@ -91,7 +91,7 @@ public class ThirdPersonController : MonoBehaviour
             }
         }
 
-        if (gameMg.gameOver == true)
+        if (gameMg.gameOver)
         {
             animPlayer.SetTrigger("Death_trig");
         }
@@ -109,7 +109,7 @@ public class ThirdPersonController : MonoBehaviour
             cannonUpgrade = true;
             Destroy(col.gameObject);
         }
-        if(col.gameObject.tag == "UpgradeThree")
+        if (col.gameObject.tag == "UpgradeThree")
         {
             hackingUpgrade = true;
             Destroy(col.gameObject);

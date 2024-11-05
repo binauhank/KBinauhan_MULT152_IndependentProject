@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class ShootWeapon : MonoBehaviour
 {
+    private GameManager gameMg;
+    
     public float projSpeed = 15f;
     public GameObject pulseCannon;
     public Rigidbody projectilePrefab;
     
-    // Update is called once per frame
+    void Start()
+    {
+        gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
+    }
+
     void Update()
     {
-        if(Input.GetButtonDown("Fire1") && pulseCannon.activeSelf == true)
+        if(!gameMg.gameOver)
         {
-            ShootProjectile();
+            if (Input.GetButtonDown("Fire1") && pulseCannon.activeSelf)
+            {
+                ShootProjectile();
+            }
         }
     }
 

@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - UpgradeThree
   - PlayerProjectile
+  - HealthPickup
   layers:
   - Default
   - TransparentFX

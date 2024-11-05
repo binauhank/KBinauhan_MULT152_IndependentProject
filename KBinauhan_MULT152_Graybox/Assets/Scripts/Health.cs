@@ -8,6 +8,11 @@ public class Health : MonoBehaviour
     
     void Update()
     {
+        if (gameObject.tag == "Player" && healthPoints > 15)
+        {
+            healthPoints = 15;
+        }
+        
         if (!(gameObject.tag == "Player") && healthPoints <= 0)
         {
             Destroy(gameObject);
@@ -20,12 +25,22 @@ public class Health : MonoBehaviour
         
         if (gameObject.tag == "Enemy")
         {
-            Debug.Log("Enemy health: " + healthPoints);
+            Debug.Log("DAMAGE - Enemy health: " + healthPoints);
         }
         
         if (gameObject.tag == "Player")
         {
-            Debug.Log("Player health: " + healthPoints);
+            Debug.Log("DAMAGE - Player health: " + healthPoints);
+        }
+    }
+
+    public void Heal(float healing)
+    {
+        healthPoints += healing;
+
+        if (gameObject.tag == "Player")
+        {
+            Debug.Log("HEAL - Player health: " + healthPoints);
         }
     }
 }

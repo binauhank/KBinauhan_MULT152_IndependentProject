@@ -6,6 +6,7 @@ public class ThirdPersonController : MonoBehaviour
 {
     public CharacterController controller;
     private GameManager gameMg;
+    private Health healthScript;
     public Transform cam;
     public Transform groundCheck;
     private Animator animPlayer;
@@ -29,6 +30,7 @@ public class ThirdPersonController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         animPlayer = GetComponent<Animator>();
+        healthScript = GetComponent<Health>();
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
     
@@ -87,7 +89,7 @@ public class ThirdPersonController : MonoBehaviour
 
             if (jumpUpgrade)
             {
-                jumpHeight = 6f;
+                jumpHeight = 5f;
             }
         }
 
@@ -112,6 +114,12 @@ public class ThirdPersonController : MonoBehaviour
         if (col.gameObject.tag == "UpgradeThree")
         {
             hackingUpgrade = true;
+            Destroy(col.gameObject);
+        }
+        if (col.gameObject.tag == "HealthPickup")
+        {
+            float healing = Random.Range(5, 10);
+            healthScript.Heal(healing);
             Destroy(col.gameObject);
         }
     }

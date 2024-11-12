@@ -44,6 +44,7 @@ public class EnemyShooting : MonoBehaviour
         if (playerInRange)
         {
             transform.rotation = Quaternion.LookRotation(player.position - transform.position, transform.up);
+            transform.parent.LookAt(player.transform.position);
         }
 
         if (healthScript.healthPoints <= 0 || gameMg.gameOver == true)

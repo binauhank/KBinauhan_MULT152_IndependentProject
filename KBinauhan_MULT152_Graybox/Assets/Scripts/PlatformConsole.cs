@@ -9,6 +9,7 @@ public class PlatformConsole : MonoBehaviour
 
     private AudioSource asConsole;
     public AudioClip consoleSound;
+    public AudioClip failSound;
 
     private ThirdPersonController upgradeCheck;
 
@@ -37,6 +38,10 @@ public class PlatformConsole : MonoBehaviour
             }
 
             asConsole.PlayOneShot(consoleSound, 0.5f);
+        }
+        else if (!upgradeCheck.hackingUpgrade && playerIsClose && Input.GetKeyDown(KeyCode.E))
+        {
+            asConsole.PlayOneShot(failSound, 0.5f);
         }
     }
 

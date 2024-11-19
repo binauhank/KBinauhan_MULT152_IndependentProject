@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerProjectile : MonoBehaviour
 {
-    void Update()
+    void Start()
     {
         Destroy(gameObject, 0.3f);
     }

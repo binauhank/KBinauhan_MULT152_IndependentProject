@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -7,12 +8,7 @@ public class Health : MonoBehaviour
     public float healthPoints = 5f;
     
     void Update()
-    {
-        if (gameObject.tag == "Player" && healthPoints > 5)
-        {
-            healthPoints = 5;
-        }
-        
+    {   
         if (!(gameObject.tag == "Player") && healthPoints <= 0)
         {
             Destroy(gameObject);
@@ -22,15 +18,20 @@ public class Health : MonoBehaviour
     public void TakeDamage(float damageTaken)
     {
         healthPoints -= damageTaken;
+
+        if (gameObject.tag == "Player" && healthPoints < 0)
+        {
+            healthPoints = 0;
+        }
         
         if (gameObject.tag == "Enemy")
         {
-            Debug.Log("DAMAGE - Enemy health: " + healthPoints);
+            print("ENEMY took damage - Health: " + healthPoints);
         }
         
         if (gameObject.tag == "Player")
         {
-            Debug.Log("DAMAGE - Player health: " + healthPoints);
+            print("PLAYER took damage - Health: " + healthPoints);
         }
     }
 
@@ -38,9 +39,11 @@ public class Health : MonoBehaviour
     {
         healthPoints += healing;
 
-        if (gameObject.tag == "Player")
+        if (gameObject.tag == "Player" && healthPoints > 5)
         {
-            Debug.Log("HEAL - Player health: " + healthPoints);
+            healthPoints = 5;
         }
+
+        print("PLAYER heal - Health: " + healthPoints);
     }
 }

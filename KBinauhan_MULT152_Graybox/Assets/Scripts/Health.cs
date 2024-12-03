@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public float healthPoints = 20f;
+    public float healthPoints = 5f;
     
     void Update()
     {
-        if (gameObject.tag == "Player" && healthPoints > 15)
+        if (gameObject.tag == "Player" && healthPoints > 5)
         {
-            healthPoints = 15;
+            healthPoints = 5;
         }
         
         if (!(gameObject.tag == "Player") && healthPoints <= 0)

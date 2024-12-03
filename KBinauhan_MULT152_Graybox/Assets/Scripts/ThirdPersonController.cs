@@ -118,7 +118,7 @@ public class ThirdPersonController : MonoBehaviour
         }
         if (col.gameObject.tag == "HealthPickup")
         {
-            float healing = Random.Range(5, 10);
+            float healing = 3f;
             healthScript.Heal(healing);
             Destroy(col.gameObject);
         }

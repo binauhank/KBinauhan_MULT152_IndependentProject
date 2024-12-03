@@ -5,8 +5,8 @@ using UnityEngine;
 public class BossShooting : MonoBehaviour
 {
     public Rigidbody projectilePrefab;
-    public float shootSpeed = 3;
-    public float fireRate = 1f;
+    private float shootSpeed = 3;
+    private float fireRate = 1f;
 
     private bool playerInRange = false;
     private Transform player = null;
@@ -31,7 +31,7 @@ public class BossShooting : MonoBehaviour
         {
             playerInRange = true;
             player = other.transform;
-            InvokeRepeating("ShootBullet", 1f, fireRate);
+            StartCoroutine(BossAttack());
         }
     }
 
@@ -41,7 +41,6 @@ public class BossShooting : MonoBehaviour
         {
             playerInRange = false;
             player = null;
-            CancelInvoke("ShootBullet");
         }
     }
 
@@ -49,19 +48,15 @@ public class BossShooting : MonoBehaviour
     {
         if (playerInRange)
         {
-            transform.rotation = Quaternion.LookRotation(player.position - transform.position, transform.up);
-            transform.parent.LookAt(player.transform.position);
-        }
-
-        if (healthScript.healthPoints <= 0 || gameMg.gameOver == true)
-        {
-            CancelInvoke("ShootBullet");
+            Vector3 rot = Quaternion.LookRotation(player.position - transform.position).eulerAngles;
+            rot.x = rot.z = 0;
+            transform.parent.rotation = Quaternion.Euler(rot);
         }
 
         if (bossScript.phaseTwo)
         {
-            shootSpeed = 7f;
-            fireRate = 3.5f;
+            shootSpeed = 5f;
+            fireRate = 0.75f;
         }
     }
 
@@ -76,6 +71,15 @@ public class BossShooting : MonoBehaviour
         {
             var projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
             projectile.velocity = transform.forward * shootSpeed;
+        }
+    }
+
+    IEnumerator BossAttack()
+    {
+        while (healthScript.healthPoints > 0 && playerInRange && !gameMg.gameOver)
+        {
+            yield return new WaitForSeconds(fireRate);
+            ShootBullet();
         }
     }
 }

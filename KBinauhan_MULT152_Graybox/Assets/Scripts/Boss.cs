@@ -30,7 +30,7 @@ public class Boss : MonoBehaviour
 
     void Update()
     {
-        if (bossHealth.healthPoints <= 15)
+        if (bossHealth.healthPoints <= 10)
         {
             platformCooldown = 1;
 

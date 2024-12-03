@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
-    void Update()
+    void Start()
     {
         Destroy(gameObject, 3f);
     }
@@ -13,7 +13,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            float damage = Random.Range(1, 3);
+            float damage = 1f;
             other.GetComponent<Health>().TakeDamage(damage);
 
             Destroy(gameObject);

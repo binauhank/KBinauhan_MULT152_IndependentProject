@@ -29,7 +29,7 @@ public class LaserGrid : MonoBehaviour
 
     void DamageOnContact()
     {
-        float damage = 5f;
+        float damage = 1f;
         healthScript.TakeDamage(damage);
     }
 }

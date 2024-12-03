@@ -13,7 +13,7 @@ public class PlayerProjectile : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            float damage = Random.Range(1, 3);
+            float damage = 1f;
             other.GetComponent<Health>().TakeDamage(damage);
 
             Destroy(gameObject);

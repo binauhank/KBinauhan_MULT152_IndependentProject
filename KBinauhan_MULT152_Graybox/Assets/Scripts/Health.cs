@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     
     void Update()
     {   
-        if (!(gameObject.tag == "Player") && healthPoints <= 0)
+        if ((gameObject.tag == "Enemy") && healthPoints <= 0)
         {
             Destroy(gameObject);
         }
@@ -27,6 +27,11 @@ public class Health : MonoBehaviour
         if (gameObject.tag == "Enemy")
         {
             print("ENEMY took damage - Health: " + healthPoints);
+        }
+
+        if (gameObject.tag == "Boss")
+        {
+            print("BOSS took damage - Health: " + healthPoints);
         }
         
         if (gameObject.tag == "Player")

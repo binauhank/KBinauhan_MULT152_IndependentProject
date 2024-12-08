@@ -9,6 +9,7 @@ public class Boss : MonoBehaviour
     private Health bossHealth;
     private AudioSource asBoss;
     private ParticleSystem explosion;
+    private Animator bossAnim;
 
     public AudioClip explosionSound;
 
@@ -23,6 +24,7 @@ public class Boss : MonoBehaviour
         bossHealth = GetComponentInParent<Health>();
         asBoss = GetComponentInParent<AudioSource>();
         explosion = GetComponentInParent<ParticleSystem>();
+        bossAnim = GetComponentInParent<Animator>();
         
         foreach (GameObject plat in platforms)
         {
@@ -32,7 +34,7 @@ public class Boss : MonoBehaviour
 
     void Update()
     {
-        if (bossHealth.healthPoints <= 10)
+        if (bossHealth.healthPoints <= 6)
         {
             platformCooldown = 1.5f;
 
@@ -43,6 +45,11 @@ public class Boss : MonoBehaviour
 
                 phaseTwo = true;
             }
+        }
+
+        if (bossHealth.healthPoints <= 0)
+        {
+            bossAnim.SetTrigger("Death_trig");
         }
     }
     

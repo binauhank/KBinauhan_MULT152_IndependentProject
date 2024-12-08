@@ -5,30 +5,37 @@ using UnityEngine;
 public class ShootWeapon : MonoBehaviour
 {
     private GameManager gameMg;
+    private Animator animPlayer;
     
-    public float projSpeed = 15f;
+    private float projSpeed = 30f;
+    private bool canShoot = true;
     public GameObject pulseCannon;
     public Rigidbody projectilePrefab;
     
     void Start()
     {
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        animPlayer = GetComponentInParent<Animator>();
     }
 
     void Update()
     {
         if(!gameMg.gameOver)
         {
-            if (Input.GetButtonDown("Fire1") && pulseCannon.activeSelf)
+            if (Input.GetButtonDown("Fire1") && pulseCannon.activeSelf && canShoot)
             {
-                ShootProjectile();
+                StartCoroutine(ShootProjectile());
+                canShoot = false;
             }
         }
     }
 
-    void ShootProjectile()
+    IEnumerator ShootProjectile()
     {
+        animPlayer.SetTrigger("Shoot_trig");
         var projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
         projectile.velocity = transform.forward * projSpeed;
+        yield return new WaitForSeconds(0.5f);
+        canShoot = true;
     }
 }

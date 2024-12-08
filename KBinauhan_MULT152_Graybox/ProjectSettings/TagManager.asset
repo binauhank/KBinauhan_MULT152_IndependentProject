@@ -13,6 +13,7 @@ TagManager:
   - UpgradeThree
   - PlayerProjectile
   - HealthPickup
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@ public class BossShooting : MonoBehaviour
     private bool playerInRange = false;
     private Transform player = null;
     private Health healthScript;
+    private Animator bossAnim;
     private GameManager gameMg;
 
     private Boss bossScript;
@@ -20,6 +21,7 @@ public class BossShooting : MonoBehaviour
     void Start()
     {
         healthScript = GetComponentInParent<Health>();
+        bossAnim = GetComponentInParent<Animator>();
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         bossScript = GetComponentInParent<Boss>();
@@ -78,6 +80,7 @@ public class BossShooting : MonoBehaviour
     {
         while (healthScript.healthPoints > 0 && playerInRange && !gameMg.gameOver)
         {
+            bossAnim.SetTrigger("Shoot_trig");
             yield return new WaitForSeconds(fireRate);
             ShootBullet();
         }

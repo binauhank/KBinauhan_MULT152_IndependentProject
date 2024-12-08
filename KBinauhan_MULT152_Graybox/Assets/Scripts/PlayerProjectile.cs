@@ -11,7 +11,7 @@ public class PlayerProjectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Boss")
         {
             float damage = 1f;
             other.GetComponent<Health>().TakeDamage(damage);

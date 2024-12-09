@@ -5,14 +5,17 @@ using UnityEngine;
 public class BossShooting : MonoBehaviour
 {
     public Rigidbody projectilePrefab;
-    private float shootSpeed = 3;
-    private float fireRate = 1f;
+    private float shootSpeed = 3f;
+    private float fireRate = 1.75f;
 
     private bool playerInRange = false;
     private Transform player = null;
     private Health healthScript;
     private Animator bossAnim;
     private GameManager gameMg;
+
+    private AudioSource asBoss;
+    public AudioClip shootSound;
 
     private Boss bossScript;
 
@@ -22,6 +25,7 @@ public class BossShooting : MonoBehaviour
     {
         healthScript = GetComponentInParent<Health>();
         bossAnim = GetComponentInParent<Animator>();
+        asBoss = GetComponentInParent<AudioSource>();
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         bossScript = GetComponentInParent<Boss>();
@@ -48,17 +52,20 @@ public class BossShooting : MonoBehaviour
 
     void Update()
     {
-        if (playerInRange)
+        if (!gameMg.gameOver && healthScript.healthPoints > 0)
         {
-            Vector3 rot = Quaternion.LookRotation(player.position - transform.position).eulerAngles;
-            rot.x = rot.z = 0;
-            transform.parent.rotation = Quaternion.Euler(rot);
+            if (playerInRange)
+            {
+                Vector3 rot = Quaternion.LookRotation(player.position - transform.position).eulerAngles;
+                rot.x = rot.z = 0;
+                transform.parent.rotation = Quaternion.Euler(rot);
+            }
         }
 
         if (bossScript.phaseTwo)
         {
-            shootSpeed = 5f;
-            fireRate = 0.75f;
+            shootSpeed = 4f;
+            fireRate = 1.5f;
         }
     }
 
@@ -74,6 +81,8 @@ public class BossShooting : MonoBehaviour
             var projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
             projectile.velocity = transform.forward * shootSpeed;
         }
+
+        asBoss.PlayOneShot(shootSound, 0.15f);
     }
 
     IEnumerator BossAttack()

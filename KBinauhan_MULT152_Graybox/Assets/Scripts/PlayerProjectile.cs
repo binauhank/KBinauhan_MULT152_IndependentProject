@@ -6,7 +6,7 @@ public class PlayerProjectile : MonoBehaviour
 {
     void Start()
     {
-        Destroy(gameObject, 0.3f);
+        Destroy(gameObject, 0.5f);
     }
 
     void OnTriggerEnter(Collider other)

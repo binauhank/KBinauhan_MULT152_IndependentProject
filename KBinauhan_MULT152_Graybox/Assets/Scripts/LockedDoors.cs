@@ -10,16 +10,26 @@ public class LockedDoors : MonoBehaviour
 
     private Animator doorAnim;
 
+    private AudioSource asDoor;
+    public AudioClip doorSound;
+    public AudioClip failSound;
+
     void Start()
     {
         doorAnim = lockedDoor.GetComponent<Animator>();
+        asDoor = lockedDoor.GetComponent<AudioSource>();
     }
     
     void Update()
     {
-        if (upgradeCheck.hackingUpgrade && playerIsClose && Input.GetKey(KeyCode.E))
+        if (upgradeCheck.hackingUpgrade && playerIsClose && Input.GetKeyDown(KeyCode.E))
         {
             doorAnim.SetTrigger("Door_open");
+            asDoor.PlayOneShot(doorSound, 0.5f);
+        }
+        else if (!upgradeCheck.hackingUpgrade && playerIsClose && Input.GetKeyDown(KeyCode.E))
+        {
+            asDoor.PlayOneShot(failSound, 0.5f);
         }
     }
     

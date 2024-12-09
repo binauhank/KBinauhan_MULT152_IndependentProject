@@ -6,14 +6,14 @@ public class SwitchWeapons : MonoBehaviour
 {
     private GameManager gameMg;
     
-    public GameObject pulseCannon;
     public ThirdPersonController controllerScript;
+
+    public bool canPunch = true;
+    public bool canShoot = false;
 
     void Start()
     {
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        
-        pulseCannon.SetActive(false);
     }
 
     void Update()
@@ -22,12 +22,14 @@ public class SwitchWeapons : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                pulseCannon.SetActive(false);
+                canPunch = true;
+                canShoot = false;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2) && controllerScript.cannonUpgrade)
             {
-                pulseCannon.SetActive(true);
+                canPunch = false;
+                canShoot = true;
             }
         }
     }

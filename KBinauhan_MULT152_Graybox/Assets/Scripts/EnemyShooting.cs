@@ -13,9 +13,13 @@ public class EnemyShooting : MonoBehaviour
     private Health healthScript;
     private GameManager gameMg;
 
+    private AudioSource asEnemy;
+    public AudioClip shootSound;
+
     void Start()
     {
         healthScript = GetComponentInParent<Health>();
+        asEnemy = GetComponentInParent<AudioSource>();
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
@@ -58,5 +62,6 @@ public class EnemyShooting : MonoBehaviour
     {
         var projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
         projectile.velocity = transform.forward * shootSpeed;
+        asEnemy.PlayOneShot(shootSound, 0.15f);
     }
 }

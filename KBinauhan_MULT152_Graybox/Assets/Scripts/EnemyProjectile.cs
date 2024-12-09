@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
+    private AudioSource asPlayer;
+    public AudioClip hitsound;
+    
     void Start()
     {
         Destroy(gameObject, 3f);
@@ -15,6 +18,9 @@ public class EnemyProjectile : MonoBehaviour
         {
             float damage = 1f;
             other.GetComponent<Health>().TakeDamage(damage);
+
+            asPlayer = other.GetComponent<AudioSource>();
+            asPlayer.PlayOneShot(hitsound, 0.15f);
 
             Destroy(gameObject);
         }

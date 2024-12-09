@@ -7,15 +7,27 @@ public class ThirdPersonController : MonoBehaviour
     public CharacterController controller;
     private GameManager gameMg;
     private Health healthScript;
+    private SwitchWeapons weaponScript;
+
     public Transform cam;
     public Transform groundCheck;
+    public Transform shootPosition;
     private Animator animPlayer;
+    private BoxCollider punchCollider;
+    public Rigidbody projectilePrefab;
+
+    private AudioSource asPlayer;
+    public AudioClip jumpSound;
+    public AudioClip punchHitSound;
+    public AudioClip shootSound;
+    public AudioClip pickupSound;
 
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
     public float gravity = -9.81f;
     public float groundDistance = 0.4f;
     public float jumpHeight = 3f;
+    public float projSpeed = 30f;
     public LayerMask groundMask;
     public bool jumpUpgrade;
     public bool cannonUpgrade;
@@ -31,7 +43,10 @@ public class ThirdPersonController : MonoBehaviour
 
         animPlayer = GetComponent<Animator>();
         healthScript = GetComponent<Health>();
+        weaponScript = GetComponentInChildren<SwitchWeapons>();
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        asPlayer = GetComponent<AudioSource>();
+        punchCollider = GetComponentInChildren<BoxCollider>();
     }
     
     void Update()
@@ -59,7 +74,7 @@ public class ThirdPersonController : MonoBehaviour
                 controller.Move(moveDir.normalized * speed * Time.deltaTime);
             }
 
-            if (!(Input.GetAxisRaw("Horizontal") == 0) || !(Input.GetAxisRaw("Vertical") == 0))
+            if ((Input.GetAxisRaw("Horizontal") != 0) || (Input.GetAxisRaw("Vertical") != 0))
             {
                 animPlayer.SetBool("Run_bool", true);
             }
@@ -72,6 +87,7 @@ public class ThirdPersonController : MonoBehaviour
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 animPlayer.SetTrigger("Jump_trig");
+                asPlayer.PlayOneShot(jumpSound, 0.5f);
             }
 
             if (velocity.y > 0)
@@ -91,6 +107,16 @@ public class ThirdPersonController : MonoBehaviour
             {
                 jumpHeight = 5f;
             }
+
+            if (weaponScript.canPunch && Input.GetButtonDown("Fire1"))
+            {
+                MeleeAttack();
+            }
+
+            if (weaponScript.canShoot && Input.GetButtonDown("Fire1"))
+            {
+                RangedAttack();
+            }
         }
 
         if (gameMg.gameOver)
@@ -104,23 +130,66 @@ public class ThirdPersonController : MonoBehaviour
         if (col.gameObject.tag == "UpgradeOne")
         {
             jumpUpgrade = true;
+            asPlayer.PlayOneShot(pickupSound, 0.4f);
             Destroy(col.gameObject);
         }
         if (col.gameObject.tag == "UpgradeTwo")
         {
             cannonUpgrade = true;
+            asPlayer.PlayOneShot(pickupSound, 0.4f);
             Destroy(col.gameObject);
         }
         if (col.gameObject.tag == "UpgradeThree")
         {
             hackingUpgrade = true;
+            asPlayer.PlayOneShot(pickupSound, 0.4f);
             Destroy(col.gameObject);
         }
         if (col.gameObject.tag == "HealthPickup")
         {
             float healing = 3f;
             healthScript.Heal(healing);
+            asPlayer.PlayOneShot(pickupSound, 0.4f);
             Destroy(col.gameObject);
         }
+
+        if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Boss")
+        {
+            col.GetComponent<Health>().TakeDamage(1f);
+            asPlayer.PlayOneShot(punchHitSound, 0.15f);
+        }
+    }
+
+    void MeleeAttack()
+    {
+        if (!animPlayer.GetCurrentAnimatorStateInfo(0).IsName("Punching"))
+        {
+            animPlayer.SetTrigger("Punch_trig");
+        }
+    }
+
+    void RangedAttack()
+    {
+        if (!animPlayer.GetCurrentAnimatorStateInfo(0).IsName("Player Shoot"))
+        {
+            animPlayer.SetTrigger("Shoot_trig");
+        }
+    }
+
+    void EnableAttack()
+    {
+        punchCollider.enabled = true;
+    }
+
+    void DisableAttack()
+    {
+        punchCollider.enabled = false;
+    }
+
+    void ShootProjectile()
+    {
+        var projectile = Instantiate(projectilePrefab, shootPosition.position, shootPosition.rotation);
+        projectile.velocity = transform.forward * projSpeed;
+        asPlayer.PlayOneShot(shootSound, 0.15f);
     }
 }

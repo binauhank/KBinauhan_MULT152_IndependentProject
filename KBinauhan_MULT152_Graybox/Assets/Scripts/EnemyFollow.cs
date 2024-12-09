@@ -11,11 +11,15 @@ public class EnemyFollow : MonoBehaviour
     private BoxCollider boxCollider;
     private GameManager gameMg;
 
+    private AudioSource asMeleeEnemy;
+    public AudioClip punchHitSound;
+
     void Start()
     {
         gameMg = GameObject.Find("Game Manager").GetComponent<GameManager>();
         animEnemy = GetComponent<Animator>();
         boxCollider = GetComponentInChildren<BoxCollider>();
+        asMeleeEnemy = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -72,7 +76,8 @@ public class EnemyFollow : MonoBehaviour
 
         if (player != null)
         {
-            other.GetComponent<Health>().TakeDamage(0.5f);
+            other.GetComponent<Health>().TakeDamage(1f);
+            asMeleeEnemy.PlayOneShot(punchHitSound, 0.15f);
         }
     }
 }

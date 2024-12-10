@@ -6,7 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: c6e1eecd8118be048bf47c9434a2a687
+  - enabled: 1
     path: Assets/Scenes/Graybox.unity
     guid: fee2361fb206773488891392a2ffd60b
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 1123627202912274796a36813d693c7d
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

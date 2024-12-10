@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour
 {
     Renderer platformRenderer;
     private GameManager gameMg;
     private Health bossHealth;
-    private AudioSource asBoss;
     private ParticleSystem explosion;
     private Animator bossAnim;
 
+    private AudioSource asBoss;
     public AudioClip explosionSound;
+    public AudioClip bossDeathSound;
 
     public bool phaseTwo = false;
+    public bool gameWin = false;
     private float platformCooldown = 3f;
     private int platformNum;
     public GameObject[] platforms;
@@ -34,7 +37,7 @@ public class Boss : MonoBehaviour
 
     void Update()
     {
-        if (bossHealth.healthPoints <= 6)
+        if (bossHealth.healthPoints <= 5)
         {
             platformCooldown = 1.5f;
 
@@ -50,6 +53,12 @@ public class Boss : MonoBehaviour
         if (bossHealth.healthPoints <= 0)
         {
             bossAnim.SetTrigger("Death_trig");
+            gameWin = true;
+        }
+
+        if (gameWin)
+        {
+            Invoke("GoToWinScreen", 4f);
         }
     }
     
@@ -80,5 +89,15 @@ public class Boss : MonoBehaviour
 
             platforms[platformNum].SetActive(true);
         }
+    }
+
+    void GoToWinScreen()
+    {
+        SceneManager.LoadScene("WinScreen");
+    }
+
+    void PlayDeathSound()
+    {
+        asBoss.PlayOneShot(bossDeathSound, 0.5f);
     }
 }

@@ -12,15 +12,19 @@ public class ThirdPersonController : MonoBehaviour
     public Transform cam;
     public Transform groundCheck;
     public Transform shootPosition;
+    public Rigidbody projectilePrefab;
     private Animator animPlayer;
     private BoxCollider punchCollider;
-    public Rigidbody projectilePrefab;
 
     private AudioSource asPlayer;
     public AudioClip jumpSound;
     public AudioClip punchHitSound;
     public AudioClip shootSound;
     public AudioClip pickupSound;
+    public AudioClip deathSound;
+
+    public GameObject cannonPopUp;
+    public GameObject modulePopUp;
 
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
@@ -117,6 +121,16 @@ public class ThirdPersonController : MonoBehaviour
             {
                 RangedAttack();
             }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2) && cannonUpgrade)
+            {
+                cannonPopUp.gameObject.SetActive(false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E) && hackingUpgrade)
+            {
+                modulePopUp.gameObject.SetActive(false);
+            }
         }
 
         if (gameMg.gameOver)
@@ -130,26 +144,28 @@ public class ThirdPersonController : MonoBehaviour
         if (col.gameObject.tag == "UpgradeOne")
         {
             jumpUpgrade = true;
-            asPlayer.PlayOneShot(pickupSound, 0.4f);
+            asPlayer.PlayOneShot(pickupSound, 0.25f);
             Destroy(col.gameObject);
         }
         if (col.gameObject.tag == "UpgradeTwo")
         {
             cannonUpgrade = true;
-            asPlayer.PlayOneShot(pickupSound, 0.4f);
+            asPlayer.PlayOneShot(pickupSound, 0.25f);
+            cannonPopUp.gameObject.SetActive(true);
             Destroy(col.gameObject);
         }
         if (col.gameObject.tag == "UpgradeThree")
         {
             hackingUpgrade = true;
-            asPlayer.PlayOneShot(pickupSound, 0.4f);
+            asPlayer.PlayOneShot(pickupSound, 0.25f);
+            modulePopUp.gameObject.SetActive(true);
             Destroy(col.gameObject);
         }
         if (col.gameObject.tag == "HealthPickup")
         {
             float healing = 3f;
             healthScript.Heal(healing);
-            asPlayer.PlayOneShot(pickupSound, 0.4f);
+            asPlayer.PlayOneShot(pickupSound, 0.25f);
             Destroy(col.gameObject);
         }
 
@@ -191,5 +207,10 @@ public class ThirdPersonController : MonoBehaviour
         var projectile = Instantiate(projectilePrefab, shootPosition.position, shootPosition.rotation);
         projectile.velocity = transform.forward * projSpeed;
         asPlayer.PlayOneShot(shootSound, 0.15f);
+    }
+
+    void PlayerDeathSound()
+    {
+        asPlayer.PlayOneShot(deathSound, 0.5f);
     }
 }

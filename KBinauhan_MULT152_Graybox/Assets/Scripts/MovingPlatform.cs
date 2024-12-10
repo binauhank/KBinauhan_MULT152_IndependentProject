@@ -6,6 +6,7 @@ public class MovingPlatform : MonoBehaviour
 {
     public WaypointPath waypointPath;
     public PlatformConsole console;
+    public PlatformSafetyCheck safetyCheck;
 
     public float speed;
 
@@ -24,7 +25,7 @@ public class MovingPlatform : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (console.activatePlatform)
+        if (console.activatePlatform && safetyCheck.isSafe)
         {
             elapsedTime += Time.deltaTime;
 
